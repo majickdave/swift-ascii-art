@@ -2,11 +2,13 @@
 //  ViewController.swift
 //  SwiftAsciiArt
 //
-//  Created by Joshua Smith on 4/25/15.
-//  Copyright (c) 2015 iJoshSmith. All rights reserved.
+// Credit https://github.com/ijoshsmith/swift-ascii-art
+//  Created by David Samuel on 5/23/17.
+//  Copyright © 2017 MusicMind. All rights reserved.
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController:
     UIViewController,
@@ -32,21 +34,6 @@ class ViewController:
     
     // MARK: - Actions
     
-    @IBAction func handleKermitTapped(_ sender: AnyObject)
-    {
-        displayImageNamed("kermit")
-    }
-    
-    @IBAction func handleBatmanTapped(_ sender: AnyObject)
-    {
-        displayImageNamed("batman")
-    }
-    
-    @IBAction func handleMonkeyTapped(_ sender: AnyObject)
-    {
-        displayImageNamed("monkey")
-    }
-    
     @IBAction func handlePickImageTapped(_ sender: AnyObject)
     {
         let imagePicker = UIImagePickerController()
@@ -54,15 +41,33 @@ class ViewController:
         self.show(imagePicker, sender: self)
     }
     
+
+
     // MARK: - UIImagePickerControllerDelegate
+    @IBAction func openPhotoTaker(_ sender: UIButton) {
+        let imagePicker = UIImagePickerController()
+            
+        imagePicker.sourceType = .camera
+            
+        imagePicker.delegate = self
+            
+        present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+
+
+
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
     {
         self.dismiss(animated: true, completion: nil)
         
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
-            displayImage(image)
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        if image != nil {
+            displayImage(image!)
+            
+            picker.dismiss(animated: true, completion: nil)
         }
     }
     
